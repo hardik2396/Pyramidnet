@@ -33,8 +33,8 @@ Pre-trained weights and training log file of model with different number of expe
 
 ## Requirements 
 Pytorch 0.3 <br>
-Python 3.5
-Numpy
+Python 3.5 <br>
+Numpy <br>
 Tensorboard Logger
 
 
