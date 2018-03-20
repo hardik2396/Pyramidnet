@@ -21,12 +21,12 @@ class LockedDropout(nn.Module):
         return mask * x
 
 
-class mixture_of_softmaxes(torch.nn.Module):
+class MixtureofSoftmaxes(torch.nn.Module):
 
     
     def __init__(self, nhid, n_experts, num_class,rd):
 
-        super(mixture_of_softmaxes, self).__init__()
+        super(MixtureofSoftmaxes, self).__init__()
         
         self.nhid=nhid
         self.num_class=num_class
@@ -54,7 +54,7 @@ class mixture_of_softmaxes(torch.nn.Module):
         return prob
 
 
-class basic(nn.Module):
+class Basic(nn.Module):
     
     channel_ratio=1
     
@@ -62,7 +62,7 @@ class basic(nn.Module):
     # basic block (c) as shown in above mentioned image in which they remove first relu and put BN layer at the end.
     
     def __init__(self,input_channel, output_channel,stride=1,downsample=None):
-        super(basic,self).__init__()
+        super(Basic,self).__init__()
         self.bn1= nn.BatchNorm2d(input_channel)
         self.conv1 = nn.Conv2d(input_channel,output_channel,kernel_size=3,stride=stride,padding=1,bias=False)
         self.bn2= nn.BatchNorm2d(output_channel)
@@ -100,7 +100,7 @@ class basic(nn.Module):
         return out
 
 
-class botteleneck(nn.Module):
+class BotteleNeck(nn.Module):
     channel_ratio=4   # for dimension mismatch 
     
     
@@ -108,7 +108,7 @@ class botteleneck(nn.Module):
     # which introduce less parameter and higher non-linearity
     
     def __init__(self,input_channel, output_channel,stride=1,downsample=None):
-        super(botteleneck,self).__init__()
+        super(BotteleNeck,self).__init__()
         self.bn1= nn.BatchNorm2d(input_channel)
         self.conv1 = nn.Conv2d(input_channel,output_channel,kernel_size=1,bias=False)
         self.bn2= nn.BatchNorm2d(output_channel)
@@ -143,10 +143,10 @@ class botteleneck(nn.Module):
         return out
 
 
-class pyramidnet(nn.Module):
+class PyramidNet(nn.Module):
     
     def __init__(self,block,alpha, depth,mos,num_class,k,rd):
-        super(pyramidnet, self).__init__()  
+        super(PyramidNet, self).__init__()  
         
         self.input_channel = 16    # number of channel for the first layer
         
@@ -163,9 +163,9 @@ class pyramidnet(nn.Module):
         self.bn1 = nn.BatchNorm2d(16)
 
         if block == 'basic':          
-            block=basic
+            block= Basic
         else:
-            block = botteleneck
+            block = BotteleNeck
 
         self.l1 = self.make_layer(block,num_blocks)
         self.l2 = self.make_layer(block,num_blocks,stride=2)   # stride=2 to reduce height and width dimension
@@ -178,7 +178,7 @@ class pyramidnet(nn.Module):
         
         
         if self.mos:
-            self.MOS= mixture_of_softmaxes(int(round(self.input_channel)),k,num_class,rd) # k here is number of experts
+            self.MOS= MixtureofSoftmaxes(int(round(self.input_channel)),k,num_class,rd) # k here is number of experts
 
         else:
             self.fc = nn.Linear(int(round(self.input_channel)),num_class)
