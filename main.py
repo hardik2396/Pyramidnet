@@ -42,6 +42,7 @@ parser.add_argument('--mos',help='mixture of softmaxes', action='store_true')
 parser.add_argument('--expname', default='PyramidNet', type=str,help='name of experiment')
 parser.add_argument('--seed', type=int, default=1234,help='random seed')
 parser.add_argument('--val_freq', type=int, default=1,help='number of epoch before validation script')
+parser.add_argument('--rd', type=float, default=0.3,help='recurrent dropout')
 
 best_acc = 0
 
@@ -98,7 +99,7 @@ def main():
     # Defining the main model
 
 
-    model=pyramidnet(args.block,args.alpha,args.depth,args.mos,num_class,args.k)
+    model=pyramidnet(args.block,args.alpha,args.depth,args.mos,num_class,args.k,args.rd)
 
     
     
