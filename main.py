@@ -12,7 +12,7 @@ import torch.optim
 import torch.utils.data
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
-from pyramidnet import pyramidnet
+from pyramidnet import PyramidNet
 
 # used for logging to TensorBoard
 from tensorboard_logger import configure, log_value
@@ -75,8 +75,6 @@ def main():
         
         train_data=datasets.CIFAR100('../data',transform=transform_train,download=True)
         val_data= datasets.CIFAR100('../data',transform=transform_test,train=False,download=True)
-
-
         train_loader = torch.utils.data.DataLoader(train_data,  batch_size=args.batchsize, shuffle=True,num_workers=8,pin_memory=True)
         val_loader = torch.utils.data.DataLoader(val_data,batch_size=args.batchsize, shuffle=False, num_workers=8,pin_memory=True) 
         num_class=100       
@@ -85,31 +83,19 @@ def main():
         
         train_data=datasets.CIFAR10('../data',transform=transform_train,download=True)
         val_data= datasets.CIFAR10('../data',transform=transform_test,train=False,download=True)
-
-
-        train_loader = torch.utils.data.DataLoader(train_data , batch_size=args.batchsize, shuffle=True,num_workers=8,pin_memory=True)
+	    train_loader = torch.utils.data.DataLoader(train_data , batch_size=args.batchsize, shuffle=True,num_workers=8,pin_memory=True)
         val_loader = torch.utils.data.DataLoader(val_data,batch_size=args.batchsize, shuffle=False, num_workers=8,pin_memory=True)
         num_class=10        
     
     else:
         raise Exception ('write like this:{}'.format(args.dataset))
 
-
-
-    # Defining the main model
-
-
-    model=pyramidnet(args.block,args.alpha,args.depth,args.mos,num_class,args.k,args.rd)
-
-    
-    
-    print(model)
+	# Defining the main model
+	model=PyramidNet(args.block,args.alpha,args.depth,args.mos,num_class,args.k,args.rd)
+	print(model)
 
     # get the number of model parameters
     print('Number of model parameters: {}'.format(sum([p.data.nelement() for p in model.parameters()])))
-
-
-
 
     # define loss function (criterion) and optimizer
     if args.mos:
@@ -120,7 +106,6 @@ def main():
     
     optimizer = torch.optim.SGD(model.parameters(), args.lr,momentum=args.momentum, nesterov = args.nesterov,weight_decay=args.weight_decay)
 
-    
     # Set the random seed manually for reproducibility.
     torch.manual_seed(args.seed)
     if torch.cuda.is_available():
@@ -134,8 +119,6 @@ def main():
         model=model.cuda()
         criterion=criterion.cuda()
 
-
-    
     # to optimise code according to hardware
     # since our image size is constant
     cudnn.benchmark =True
@@ -155,9 +138,7 @@ def main():
 
     
    # Training 
-
-
-    for epoch in range(args.start_epoch,args.epochs):
+	for epoch in range(args.start_epoch,args.epochs):
         
         model.train()    # trainig mode
         
@@ -165,9 +146,7 @@ def main():
         train_acc = AverageMeter()
 
         start_time = time.time()   # calculation time needed for one epoch for training
-
-        
-        adjust_learning_rate(optimizer, epoch)  
+		adjust_learning_rate(optimizer, epoch)  
 
         for images,labels in train_loader:
             
@@ -260,12 +239,6 @@ def main():
 
     print ('Best accuracy (error): ', best_acc)
     
-
-    
-
-
-
-
 class AverageMeter(object):
     """Computes and stores the average and current value"""
     def __init__(self):
@@ -306,37 +279,3 @@ def adjust_learning_rate(optimizer, epoch):
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
-    
-
-
-
-
-
-
-
-        
-
-
-
-
