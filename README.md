@@ -30,8 +30,10 @@ pip install tensorboard_logger
 ```
 ## Results 
 Pre-trained weights and training log file of model with different number of experts can be found [here](https://drive.google.com/open?id=101dn9Hi0Zp6OD8_obtVOYWrUl5qFXqYX).  
-![](imgs/Val.png ) ![](imgs/train.png)
-
+<p float="left">
+  <img src="imgs/Val.png" width="100" />
+  <img src="imgs/train.png" width="100" /> 
+</p>
 
 
 
