@@ -83,7 +83,7 @@ def main():
         
         train_data=datasets.CIFAR10('../data',transform=transform_train,download=True)
         val_data= datasets.CIFAR10('../data',transform=transform_test,train=False,download=True)
-	    train_loader = torch.utils.data.DataLoader(train_data , batch_size=args.batchsize, shuffle=True,num_workers=8,pin_memory=True)
+        train_loader = torch.utils.data.DataLoader(train_data , batch_size=args.batchsize, shuffle=True,num_workers=8,pin_memory=True)
         val_loader = torch.utils.data.DataLoader(val_data,batch_size=args.batchsize, shuffle=False, num_workers=8,pin_memory=True)
         num_class=10        
     
@@ -91,8 +91,8 @@ def main():
         raise Exception ('write like this:{}'.format(args.dataset))
 
 	# Defining the main model
-	model=PyramidNet(args.block,args.alpha,args.depth,args.mos,num_class,args.k,args.rd)
-	print(model)
+    model=PyramidNet(args.block,args.alpha,args.depth,args.mos,num_class,args.k,args.rd)
+    print(model)
 
     # get the number of model parameters
     print('Number of model parameters: {}'.format(sum([p.data.nelement() for p in model.parameters()])))
@@ -136,17 +136,15 @@ def main():
         else:
             print("=> no checkpoint found at '{}'".format(args.resume))
 
-    
-   # Training 
-	for epoch in range(args.start_epoch,args.epochs):
-        
+    # Training
+    for epoch in range(args.start_epoch,args.epochs):
         model.train()    # trainig mode
         
         losses = AverageMeter()
         train_acc = AverageMeter()
 
         start_time = time.time()   # calculation time needed for one epoch for training
-		adjust_learning_rate(optimizer, epoch)  
+        adjust_learning_rate(optimizer, epoch)  
 
         for images,labels in train_loader:
             
