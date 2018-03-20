@@ -15,7 +15,7 @@ This implementation incorporates MoS layer which is introduced in [Breaking the 
 ## Usage examples
 To train additive PyramidNet-110 (alpha=48 with out MoS layer) on CIFAR-10 dataset with GPU:
 ```
-CUDA_VISIBLE_DEVICES=0 python train.py --alpha 64 --depth 110  --batchsize 128 --lr 0.01 --print-freq 1 --expname PyramidNet-110 --dataset cifar10 --cuda
+CUDA_VISIBLE_DEVICES=0 python train.py --alpha 48 --depth 110  --batchsize 128 --lr 0.01 --print-freq 1 --expname PyramidNet-110 --dataset cifar10 --cuda
 ```
 To train additive PyramidNet-110 (alpha=48 with MoS layer with 6 number of experts and 0.3 recurrent dropout) on CIFAR-100 dataset with :
 ```
@@ -29,7 +29,13 @@ Tensorboard_logger can be installed with
 pip install tensorboard_logger
 ```
 ## Results 
-Pre-trained weights and training log file of model with different number of experts can be found [here](https://drive.google.com/open?id=101dn9Hi0Zp6OD8_obtVOYWrUl5qFXqYX).  
+Pre-trained weights and training log file of model with different number of experts can be found [here](https://drive.google.com/open?id=101dn9Hi0Zp6OD8_obtVOYWrUl5qFXqYX).  
+![](imgs/Val.png)
+![](imgs/train.png)
+
+
+
+
 
 ## Requirements 
 Pytorch 0.3 <br>
