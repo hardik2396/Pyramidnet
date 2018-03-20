@@ -32,7 +32,7 @@ pip install tensorboard_logger
 Pre-trained weights and training log file of model with different number of experts can be found [here](https://drive.google.com/open?id=101dn9Hi0Zp6OD8_obtVOYWrUl5qFXqYX).  
 
 ## Requirements 
-Pytorch 0.3
+Pytorch 0.3 <br>
 Python 3.5
 Numpy
 Tensorboard Logger
