@@ -20,7 +20,7 @@ from tensorboard_logger import configure, log_value
 import warnings
 warnings.filterwarnings("ignore")
 
-parser = argparse.ArgumentParser(description='PyTorch WideResNet Training')
+parser = argparse.ArgumentParser(description='PyTorch PyramidNet Training')
 parser.add_argument('--dataset', default='cifar10', type=str,help='dataset (cifar10 [default] or cifar100)')
 parser.add_argument('--epochs', default=500, type=int,help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int,help='manual epoch number (useful on restarts)')
@@ -57,13 +57,12 @@ def main():
     normalize = transforms.Normalize(mean=[x/255.0 for x in [125.3, 123.0, 113.9]],std=[x/255.0 for x in [63.0, 62.1, 66.7]])
 
     transform_train = transforms.Compose([
-            transforms.ToTensor(),
+            transforms.ToTensor(), # channel first or channel last 
             ## Extra padding for random crop as described in paper
             transforms.Lambda(lambda x: F.pad(Variable(x.unsqueeze(0), requires_grad=False, volatile=True),(4,4,4,4),mode='reflect').data.squeeze()), 
             transforms.ToPILImage(),
             transforms.RandomCrop(32),
             transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(), # channel first or channel last 
             normalize,])
 
     transform_test = transforms.Compose([transforms.ToTensor(),normalize])  
